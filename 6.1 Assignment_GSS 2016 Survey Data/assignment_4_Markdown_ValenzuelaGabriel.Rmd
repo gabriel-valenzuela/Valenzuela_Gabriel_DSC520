@@ -1,0 +1,131 @@
+---
+title: "Relationship between Number of Siblings & Number of His or Her Children"
+author: "Gabriel Valenzuela"
+date: "1/19/2020"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Answers
+
+## Part 1
+
+# A)
+```{r echo = FALSE}
+GSSSurvey <- read.csv("gss-2016.csv")
+library(ggplot2)
+children <-GSSSurvey$CHILDS
+siblings <- GSSSurvey$SIBS
+
+ggplot(GSSSurvey, aes(x=siblings,y=children)) + geom_point() + geom_smooth(method = "lm")
+```
+
+Based on the regression line, it seems that the more siblings a respondent had the more children that respondent tended to have at the time. It looks like it grew slightly then begin to not rise as fast. 
+
+# B)
+```{r}
+cov(siblings, children, use = "pairwise.complete.obs")
+
+```
+Since they are missing values in the data, which was concluded by "NA" appearning on
+a normal cov(), it can be speculated based on the result of 1.064853 that there is a positive relationship between these two variables
+
+# C)
+I chose the pearson method because it is primarily used as a primary check for the
+relationship between two variables. The coefficient of correlation is a measure of the strength of the linear relationship between two variables. The test will yeild a
+positive correlation. 
+```{r}
+cor.test(siblings, children, method = "pearson")
+
+```
+
+
+# D)
+```{r}
+cor(GSSSurvey[,c("SIBS","CHILDS")], use = "pairwise.complete.obs")
+
+```
+With looking at the correlation matrix, these two variables have a very weak posivitve relation to one another. The value is barely above zero between SIBS and CHILDS variables.
+
+
+# E)
+```{r echo = FALSE}
+family.lm <- lm(siblings ~ children, data = GSSSurvey)
+
+```
+
+Correlation Coefficient:
+```{r}
+summary(family.lm)
+
+```
+
+Correlation Determination:
+```{r}
+summary(family.lm)$r.squared
+
+```
+The relationship between these two variables have a weak and positive linear relationship
+
+
+# F)
+Thus far, I would say that there is a relationship between these two variables, but
+at the same time, it is not a very strong relationship for both of them.
+
+
+# G)
+
+***Was not able to complete
+
+# H)
+***was not bale to complete
+
+## Part 2
+
+# A)
+```{r}
+library(datasets)
+model <- lm(formula = siblings~children, data = GSSSurvey, na.action = na.exclude)
+model
+```
+
+# B)
+```{r}
+summary(model)
+```
+The intercept is 3.0080 and the slope would be 0.3818.
+Coefficient of determination: 0.03954
+Correlation coefficient: 0.19885
+
+
+# C)
+Based on this model, we can explain that the variation in the number of children
+that someone has due to siblings is 3.95%. Hence, the amount of variation not
+explained by the number of siblings is 96.05%.
+
+
+# D)
+For the calculated F-Ratio, this model does have a better prediction of the number of children than if someone had the mean value of siblings
+
+
+# E)
+outcome = (model) + error
+outcome = 3.00804 + (0.38179 * 3)
+```{r}
+threeKids <- 3.00804 + (0.38179 * 3)
+threeKids
+```
+Using the prediction model, the predicted number of children would be 4
+
+# F)
+outcome = (model) + error
+outcome = 3.00804 + (0.38179 * 0)
+```{r}
+zeroKids <- 3.00804 + (0.38179 * 0)
+zeroKids
+```
+Using the prediction model, the predicted number of children would be 3
+
