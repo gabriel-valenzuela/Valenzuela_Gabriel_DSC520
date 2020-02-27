@@ -1,0 +1,60 @@
+---
+title: "Binary Regression Model"
+author: "Gabriel Valenzuela"
+date: "1/30/2020"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Answers
+
+```{r echo = FALSE}
+binary <- read.csv("binary-classifier-data.csv")
+summary(binary)
+```
+
+# A)
+
+```{r echo = FALSE}
+lrfit <- glm(label ~ x + y,data = binary, family = "binomial")
+fitted.results <- predict(lrfit,newdata = binary,type = 'response')
+fitted.results <- ifelse(fitted.results > 0.5,1,0)
+misClasificError <- mean(fitted.results != binary$label)
+print(paste('Accuracy',1-misClasificError))
+```
+
+# B)
+
+```{r echo = FALSE}
+library(class)
+set.seed(123)
+dat.d <- sample(1:nrow(binary),size = nrow(binary)*0.7,replace = FALSE)
+
+train.binary <- binary[dat.d,] 
+test.binary <- binary[-dat.d,] 
+
+train.binary_labels <- binary[dat.d,1]
+test.binary_labels <- binary[-dat.d,1]
+
+NROW(train.binary_labels)
+
+knn.32 <- knn(train = train.binary,test = test.binary,cl = train.binary_labels, k=32)
+knn.33 <- knn(train = train.binary,test = test.binary,cl = train.binary_labels, k=33)
+
+ACC.32 <- 100 * sum(test.binary_labels == knn.32)/NROW(test.binary_labels)
+ACC.33 <- 100 * sum(test.binary_labels == knn.33)/NROW(test.binary_labels)
+
+
+
+caret::confusionMatrix(table(knn.32, test.binary_labels))
+```
+
+The accuracy of the logistic regression classifier are different accuracies compared to one another
+
+
+# C)
+
+The accuracy is different because of the KNN algorithm is learning based off of testing data while the the logisitic regression is using the predictor variables along with the model to make the predicition.
