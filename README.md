@@ -12,10 +12,6 @@ For this project, I wanted to understand the current state of the toy marketplac
 
 R was applied within R Studio to complete the analysis
 
-### Data Set Source
-
-Kaggle.com
-
 ### Data Cleaning and Preparation
 
 ```r
@@ -187,3 +183,7 @@ df_toy$word <- as.character(df_toy$word)
 ```
 
 ![Top Toy Names](https://github.com/gabriel-valenzuela/Valenzuela_Gabriel_DSC520/blob/master/Final%20Project/TopToyNames.png)
+
+### Conclusion
+
+When it comes to toy manufacturers in the Amazon Marketplace, I believe that I provided an insight on how the Amazon marketplace is currently operating when it comes to selling toy products to its consumers by describing relationships between areas of the market as well as determining the top manufacturers and suppliers of toys. In this analysis, I hope that users can examine how the direct connection to the consumer using the rating system can distinguish the manufacturers and the products that achieve success in the marketplace.  
